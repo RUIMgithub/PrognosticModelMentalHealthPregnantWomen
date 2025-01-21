@@ -25,7 +25,11 @@ library(xtable)
 library(mboost)
 library(glmnet)
 library(randomForest)
+library(rstudioapi)
 
+# automatically set your working directory to the script directory  
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+getwd()
 
 ###########==========================================================
 # Define the predictors and the response variable

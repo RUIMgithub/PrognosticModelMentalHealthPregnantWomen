@@ -8,7 +8,6 @@
 
 
 # EXAMPLE with NOISY DATA
-###########################
 
 
 # Fitting different models on Noisy data
@@ -27,7 +26,12 @@ library(xtable)
 library(mboost)
 library(glmnet)
 library(randomForest)
+library(here)
+library(rstudioapi)
 
+# automatically set your working directory to the script directory  
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+getwd()
 
 noisy_datp <- read.table("noisy_PPD_data_18variables.txt", header = T, sep = " ")
 colnames(noisy_datp) <- gsub("_noisy$", "", colnames(noisy_datp))
@@ -231,8 +235,9 @@ x1_cv <- xgb.cv(data = dat, nfold = 20, nrounds = 100)
 which.min(x1_cv$evaluation_log$test_rmse_mean)
 
 x1 <- xgboost(data = dat, nrounds = 11, objective = "reg:squarederror")
-xgb.ggplot.importance(model = x1, importance_matrix = xgb.importance(model = x1)) # Obtain a plot similat to Fig. 2 in the paper
 
+# Obtain a plot similar to Fig. 2 in the paper
+xgb.ggplot.importance(model = x1, importance_matrix = xgb.importance(model = x1)) 
 
 preds_xgboost <- predict(x1, newdata = as.matrix(noisy_datp_numeric_test.reg[, predictors]))
 
@@ -257,7 +262,7 @@ library(tensorflow)
 set.seed(123)
 
 
-# Create a simple neural network model 
+# Create a simple neurahl network model 
 model <- keras_model_sequential() %>%
   layer_dense(units = 64, activation = "relu", 
               input_shape = ncol(noisy_datp.train.time[, predictors])) %>%
@@ -274,14 +279,21 @@ model %>% compile(
 
 # Convert the training data to a matrix
 noisy_datp_numeric_train.time <- data.frame(lapply(noisy_datp.train.time, function(x) as.numeric(as.character(x))))
+noisy_datp_numeric_train.time_reduced <- noisy_datp_numeric_train.time[,-((ncol(noisy_datp_numeric_train.time) - 1):ncol(noisy_datp_numeric_train.time))]
+noisy_datp_numeric_train.time_reduced <- noisy_datp_numeric_train.time_reduced[,-1] # remove response
+noisy_datp_numeric_train.time_reduced <- as.matrix(noisy_datp_numeric_train.time_reduced)
 noisy_datp_numeric_test.time <- data.frame(lapply(noisy_datp.test.reg, function(x) as.numeric(as.character(x))))
+noisy_datp_numeric_test.time_reduced <- noisy_datp_numeric_test.time[,-((ncol(noisy_datp_numeric_test.time) - 1):ncol(noisy_datp_numeric_test.time))]
+noisy_datp_numeric_test.time_reduced  <- noisy_datp_numeric_test.time_reduced[,-1]  # remove response
+noisy_datp_numeric_test.time_reduced <- as.matrix(noisy_datp_numeric_test.time_reduced)
+
 
 train_labels <- noisy_datp_numeric_train.time[, response]
 test_labels <- noisy_datp_numeric_test.time[, response]
 
 # Train the model
 history <- model %>% fit(
-  noisy_datp_numeric_train.time, train_labels,
+  noisy_datp_numeric_train.time_reduced, train_labels,
   epochs = 50,  # Number of training epochs (equivalent to nrounds in xgboost)
   batch_size = 32,  # Batch size
   validation_split = 0.2  # Use 20% of the data for validation
@@ -290,7 +302,7 @@ history <- model %>% fit(
 
 
 # Make predictions on the test data
-preds_keras <- model %>% predict(noisy_datp_numeric_test.time)
+preds_keras <- model %>% predict(noisy_datp_numeric_test.time_reduced)
 
 # Compute predictive R^2
 cor(preds_keras, noisy_datp_numeric_test.time$EPDS, use = "pairwise.complete.obs")^2
