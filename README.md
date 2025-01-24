@@ -5,3 +5,6 @@ Files:
 01_Fit_Different_Models_WithNoisyData.R -->  get similar results to those of Table 2 and Figures 2 and 3  
 02_Compare_splits_WithNoisyData.R&nbsp;&nbsp;&nbsp;-->  get similar results to those of Table 3  
 noisy_PPD_data_18variables.txt&nbsp;&nbsp;&nbsp;-->  dataset with 18 Variables; 15 covariates; 1 response; 2 variables for regional and time splitting ("country_noisy"; "date_noisy")  
+
+Research Innovation and Sustainable Pan-European Network in Peripartum Depression Disorder ([RISEUP-PPD](https://www.cost.eu/cost-events/riseup-ppd-conference-2022/)) COST Action is organising its first international conference on Peripartum Depression in the context of public health emergencies and humanitarian crisis.  
+
