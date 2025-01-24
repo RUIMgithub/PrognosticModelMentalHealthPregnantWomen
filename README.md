@@ -6,5 +6,6 @@ Files:
 02_Compare_splits_WithNoisyData.R&nbsp;&nbsp;&nbsp;-->  get similar results to those of Table 3  
 noisy_PPD_data_18variables.txt&nbsp;&nbsp;&nbsp;-->  dataset with 18 Variables; 15 covariates; 1 response; 2 variables for regional and time splitting ("country_noisy"; "date_noisy")  
 
-Research Innovation and Sustainable Pan-European Network in Peripartum Depression Disorder ([RISEUP-PPD](https://www.cost.eu/actions/CA18138/))  Riseup-PPD COST Action is to establish a Pan-European multidisciplinary network of researchers dedicated to the understanding of Peripartum Depression Disorder (PPD), from its prevention and assessment to its treatment and global impact.
+Research Innovation and Sustainable Pan-European Network in Peripartum Depression Disorder ([RISEUP-PPD](<a href="https://www.cost.eu/actions/CA18138/" target="_blank" rel="noopener noreferrer">COST Action CA18138</a>))  
+Riseup-PPD COST Action is to establish a Pan-European multidisciplinary network of researchers dedicated to the understanding of Peripartum Depression Disorder (PPD), from its prevention and assessment to its treatment and global impact.
 
